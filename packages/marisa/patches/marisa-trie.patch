@@ -1,0 +1,12 @@
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index d89d928..6ba6a32 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -181,6 +181,7 @@ add_library(marisa
+   lib/marisa/keyset.cc
+   lib/marisa/trie.cc
+ )
++target_compile_options(marisa PRIVATE "-ffile-prefix-map=${CMAKE_CURRENT_SOURCE_DIR}=.")
+ target_include_directories(marisa
+   PUBLIC
+     $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/include>
