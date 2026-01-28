@@ -33,6 +33,7 @@ jobs:
 
       - name: Package
         env:
+          ANDROID_NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}
           ANDROID_NDK_ROOT: ${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}
         run: |
           IFS=',' read -ra ARCHS <<< "$ABI"
