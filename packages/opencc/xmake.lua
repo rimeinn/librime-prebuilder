@@ -19,17 +19,12 @@ package("opencc")
     end)
 
     on_install(function (package)
-        io.replace("src/CMakeLists.txt", "target_link_libraries(libopencc marisa)", "", {plain = true})
-        local file = io.open("src/CMakeLists.txt", "a")
-        if file then
-            file:write([[
-                if (USE_SYSTEM_MARISA)
-                    find_package(marisa CONFIG REQUIRED)
-                    target_link_libraries(libopencc PUBLIC marisa)
-                endif()
-            ]])
-            file:close()
-        end
+        io.replace(
+            "src/CMakeLists.txt",
+            "target_link_libraries(libopencc marisa)",
+            "target_link_libraries(libopencc PUBLIC Marisa::marisa)", 
+            {plain = true}
+        )
 
         local configs = {
             "-DBUILD_DOCUMENTATION=OFF",
