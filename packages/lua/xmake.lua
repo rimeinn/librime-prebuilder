@@ -1,5 +1,5 @@
 package("lua")
-    set_homepage("https://github.com/walterschell/Lua")
+    set_homepage("https://lua.org/")
     set_description("A powerful, efficient, lightweight, embeddable scripting language")
 
     add_urls("https://github.com/lua/lua/archive/refs/tags/$(version).tar.gz",
