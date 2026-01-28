@@ -3,7 +3,7 @@ package("snappy")
     set_description("A fast compressor/decompressor")
 
     set_urls("https://github.com/google/snappy/archive/$(version).tar.gz",
-             "https://github.com/google/snappy.git")
+             "https://github.com/google/snappy.git", { submodules = false })
 
     add_versions("1.2.2", "90f74bc1fbf78a6c56b3c4a082a05103b3a56bb17bca1a27e052ea11723292dc")
 
