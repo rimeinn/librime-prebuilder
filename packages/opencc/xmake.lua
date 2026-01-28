@@ -16,7 +16,6 @@ package("opencc")
         if not package:config("shared") then
             package:add("defines", "Opencc_BUILT_AS_STATIC")
         end
-        package:set("installdir", path.join(os.projectdir(), "build", package:plat() .. "-" .. package:arch()))
     end)
 
     on_install(function (package)

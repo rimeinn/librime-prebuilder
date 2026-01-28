@@ -11,21 +11,7 @@ package("lua")
 
     add_includedirs("include/lua")
 
-    on_load(function (package)
-        package:set("installdir", path.join(os.projectdir(), "build", package:plat() .. "-" .. package:arch()))
-    end)
-
     on_install(function (package)
-        -- local configs = {
-        --     "-DLUA_BUILD_BINARY=OFF",
-        --     "-DLUA_BUILD_COMPILER=OFF",
-        --     "-DLUA_ENABLE_TESTING=OFF",
-        --     "-DLUA_SUPPORT_DL=ON"
-        -- }
-
-        -- table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:is_debug() and "Debug" or "Release"))
-        -- table.insert(configs, "-DLUA_ENABLE_SHARED=" .. (package:config("shared") and "ON" or "OFF"))
-
         local sourcedir = os.isdir("src") and "src/" or "" -- for tar.gz or git source
         io.writefile("xmake.lua", format([[
             add_rules("mode.release", "mode.debug")

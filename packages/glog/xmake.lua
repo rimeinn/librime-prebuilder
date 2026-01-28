@@ -11,10 +11,6 @@ package("glog")
     add_patches("v0.7.1", path.join(os.scriptdir(), "patches", "glog.patch"))
 
     add_deps("cmake")
-    
-    on_load(function (package)
-        package:set("installdir", path.join(os.projectdir(), "build", package:plat() .. "-" .. package:arch()))
-    end)
 
     on_install(function (package)
         local configs = {

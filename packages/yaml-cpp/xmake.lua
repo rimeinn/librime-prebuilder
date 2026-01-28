@@ -10,10 +10,6 @@ package("yaml-cpp")
 
     add_deps("cmake")
 
-    on_load(function (package)
-        package:set("installdir", path.join(os.projectdir(), "build", package:plat() .. "-" .. package:arch()))
-    end)
-
     on_install(function (package)
         local configs = {
             "-DYAML_CPP_BUILD_CONTRIB=OFF",

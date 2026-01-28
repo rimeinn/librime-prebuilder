@@ -11,10 +11,6 @@ package("leveldb")
     add_deps("cmake")
     add_deps("snappy", { system = false })
 
-    on_load(function (package)
-        package:set("installdir", path.join(os.projectdir(), "build", package:plat() .. "-" .. package:arch()))
-    end)
-
     on_install(function (package)
         if package:config("shared") then
             package:add("defines", "LEVELDB_SHARED_LIBRARY")

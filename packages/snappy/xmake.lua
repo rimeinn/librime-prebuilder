@@ -9,10 +9,6 @@ package("snappy")
 
     add_deps("cmake")
 
-    on_load(function (package)
-        package:set("installdir", path.join(os.projectdir(), "build", package:plat() .. "-" .. package:arch()))
-    end)
-
     on_install(function (package)
         -- io.replace("CMakeLists.txt", "cmake_minimum_required(VERSION 3.1)", "cmake_minimum_required(VERSION 3.3)", {plain = true})
         -- io.replace("CMakeLists.txt", "-Werror", "", {plain = true})
