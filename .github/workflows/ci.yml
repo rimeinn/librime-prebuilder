@@ -20,6 +20,11 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      - name: Install dependency
+        run: |
+          sudo apt update
+          sudo apt install -y opencc
+
       - name: Setup Android NDK
         uses: android-actions/setup-android@v3
         with:
