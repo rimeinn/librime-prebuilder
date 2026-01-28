@@ -38,13 +38,14 @@ jobs:
         run: |
           IFS=',' read -ra ARCHS <<< "$ABI"
           for arch in "${ARCHS[@]}"; do
-            xmake config --yes -vD --mode=releasedbg --plat=android --arch="$arch"
+            xmake config --yes --verbose --mode=releasedbg --plat=android --arch="$arch"
+            xmake install android
           done
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4
         with:
           name: android.tar.xz
-          path: build/*
+          path: out/*
           compression-level: 0
           if-no-files-found: error
