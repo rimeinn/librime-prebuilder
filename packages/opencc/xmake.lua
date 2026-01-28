@@ -13,12 +13,21 @@ package("opencc")
     add_deps("marisa", { system = false })
 
     on_load(function (package)
-        if not package:config("shared") then
-            package:add("defines", "Opencc_BUILT_AS_STATIC")
-        end
+        if package:is_cross() then
+            -- use host opencc_dict for cross build
+            package:add("deps", "opencc~host", {kind = "binary", host = true})
+        else
+            package:addenv("PATH", "bin")
+        end     
     end)
 
     on_install(function (package)
+        if package:is_cross() then
+            io.replace("data/CMakeLists.txt",
+                "COMMAND\n      ${OPENCC_DICT_BIN}",
+                format("COMMAND\n      %s/bin/opencc_dict", path.unix(package:dep("opencc"):installdir())), {plain = true})
+        end
+
         io.replace(
             "src/CMakeLists.txt",
             "target_link_libraries(libopencc marisa)",
@@ -27,6 +36,10 @@ package("opencc")
         )
 
         local configs = {
+            "-DSHARE_INSTALL_PREFIX=share",
+            "-DINCLUDE_INSTALL_DIR=include",
+            "-DSYSCONF_INSTALL_DIR=etc",
+            "-DLIB_INSTALL_DIR=lib",
             "-DBUILD_DOCUMENTATION=OFF",
             "-DBUILD_PYTHON=OFF",
             "-DENABLE_GTEST=OFF",
