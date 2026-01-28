@@ -38,7 +38,7 @@ jobs:
         run: |
           IFS=',' read -ra ARCHS <<< "$ABI"
           for arch in "${ARCHS[@]}"; do
-            xmake config --yes --verbose --mode=releasedbg --plat=android --arch="$arch"
+            xmake config --yes -vD --mode=releasedbg --plat=android --arch="$arch"
           done
 
       - name: Upload artifacts
