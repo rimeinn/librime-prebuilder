@@ -3,31 +3,17 @@ package("opencc")
     set_description("Conversion between Traditional and Simplified Chinese.")
     set_license("Apache-2.0")
 
-    add_urls("https://github.com/BYVoid/OpenCC/archive/refs/tags/ver.$(version).tar.gz")
+    add_urls("https://github.com/BYVoid/OpenCC/archive/refs/tags/ver.$(version).tar.gz",
+             "https://github.com/BYVoid/OpenCC.git", { submodules = false })
 
-    add_versions("1.2.0", "f4f86eb25e239450d075081e08594801aa063c298d21d9f6c6aa85cd55241962")
+    add_versions("1.1.9", "ad4bcd8d87219a240a236d4a55c9decd2132a9436697d2882ead85c8939b0a99")
 
-    add_patches("1.2.0", path.join(os.scriptdir(), "patches", "opencc.patch"))
+    add_patches("1.1.9", path.join(os.scriptdir(), "patches", "opencc.patch"))
 
-    add_deps("cmake")
+    add_deps("cmake", "python 3.x", {kind = "binary"})
     add_deps("marisa", { system = false })
 
-    on_load(function (package)
-        if package:is_cross() then
-            -- use host opencc_dict for cross build
-            package:add("deps", "opencc~host", {kind = "binary", host = true})
-        else
-            package:addenv("PATH", "bin")
-        end     
-    end)
-
     on_install(function (package)
-        if package:is_cross() then
-            io.replace("data/CMakeLists.txt",
-                "COMMAND\n      ${OPENCC_DICT_BIN}",
-                format("COMMAND\n      %s/bin/opencc_dict", path.unix(package:dep("opencc"):installdir())), {plain = true})
-        end
-
         io.replace(
             "src/CMakeLists.txt",
             "target_link_libraries(libopencc marisa)",
