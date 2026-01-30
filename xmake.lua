@@ -6,7 +6,7 @@ includes("packages/**/xmake.lua")
 
 add_requires(
     {
-        "glog", "yaml-cpp", "marisa", "opencc", "snappy", "leveldb", "lua"
+        "boost", "glog", "yaml-cpp", "marisa", "opencc", "snappy", "leveldb", "lua"
     },
     {
         system = false,
@@ -18,7 +18,7 @@ add_requires(
 
 target("android")
     set_kind("phony")
-    add_packages("glog", "yaml-cpp", "marisa", "opencc", "snappy", "leveldb", "lua")
+    add_packages("boost", "glog", "yaml-cpp", "marisa", "opencc", "snappy", "leveldb", "lua")
 
     on_install(function (target)
         local base_dir = path.join(os.projectdir(), "out", target:name() .. "-" .. target:arch())
