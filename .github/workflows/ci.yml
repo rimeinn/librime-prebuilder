@@ -10,12 +10,13 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      ABI: "armeabi-v7a,arm64-v8a,x86,x86_64"
       NDK_VERSION: "28.0.13004108"
       CMAKE_VERSION: "3.31.6"
       ANDROID_PLATFORM: "21"
     strategy:
       fail-fast: false
+      matrix:
+        arch: ["armeabi-v7a", "arm64-v8a", "x86", "x86_64"]
 
     steps:
       - name: Checkout repository
@@ -42,16 +43,10 @@ jobs:
           ANDROID_NDK_HOME: ${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}
           ANDROID_NDK_ROOT: ${{ env.ANDROID_HOME }}/ndk/${{ env.NDK_VERSION }}
         run: |
-          IFS=',' read -ra ARCHS <<< "$ABI"
-          for arch in "${ARCHS[@]}"; do
-            xmake config --yes --verbose --mode=releasedbg --plat=android --arch="$arch"
-            xmake install android
-          done
+          xmake config --yes --verbose --mode=releasedbg --plat=android --arch=${{ matrix.arch }}
 
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
-          name: android.tar.xz
-          path: out/*
-          compression-level: 0
-          if-no-files-found: error
+          name: artifact-android-${{ matrix.arch }}
+          path: out/android/*.tar.xz

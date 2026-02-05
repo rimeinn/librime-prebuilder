@@ -23,4 +23,20 @@ package("leveldb")
         table.insert(configs, "-DCMAKE_BUILD_TYPE=" .. (package:is_debug() and "Debug" or "Release"))
         table.insert(configs, "-DBUILD_SHARED_LIBS=" .. (package:config("shared") and "ON" or "OFF"))
         import("package.tools.cmake").install(package, configs)
+
+        local archive_name = table.concat({package:name(), package:arch()}, "-")
+        local archive_file = path.join(os.projectdir(), "out", package:plat(), archive_name .. ".tar.xz")
+
+        local opt = {
+            recurse = true,
+            compress = "best",
+            curdir = package:installdir()
+        }
+
+        local archive_dirs = {}
+        for _, dir in ipairs(os.dirs(path.join(opt.curdir, "*"))) do
+            table.insert(archive_dirs, path.filename(dir))
+        end
+
+        import("utils.archive").archive(archive_file, archive_dirs, opt)
     end)
